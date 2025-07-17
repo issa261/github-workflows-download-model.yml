@@ -1,4 +1,4 @@
-name: Download Model from Hugging Face
+name: Download GGUF Model from Hugging Face
 
 on:
   workflow_dispatch:
@@ -8,25 +8,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repo
-      uses: actions/checkout@v3
-      with:
-        lfs: true
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+        with:
+          lfs: true
 
-    - name: Install Git LFS
-      run: |
-        git lfs install
+      - name: Set up Git LFS
+        run: |
+          git lfs install
 
-    - name: Download GGUF model
-      run: |
-        git clone https://huggingface.co/ahmedheakl/arazn-llama3-arabic-gguf
+      - name: Download the GGUF model file directly
+        run: |
+          wget -O arazn-llama3-arabic.Q4_K_M.gguf https://huggingface.co/ahmedheakl/arazn-llama3-arabic-gguf/resolve/main/arazn-llama3-arabic.Q4_K_M.gguf
 
-    - name: Track with Git LFS and Push
-      run: |
-        git lfs track "*.gguf"
-        git add .gitattributes
-        git add arazn-llama3-arabic.Q4_K_M.gguf
-        git config user.name "github-actions"
-        git config user.email "github-actions@github.com"
-        git commit -m "Add GGUF model from HuggingFace"
-        git push origin main
+      - name: Track with Git LFS and commit
+        run: |
+          git lfs track "*.gguf"
+          git add .gitattributes
+          git add arazn-llama3-arabic.Q4_K_M.gguf
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git commit -m "Add GGUF model from HuggingFace"
+          git push origin main
