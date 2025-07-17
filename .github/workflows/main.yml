@@ -19,7 +19,7 @@ jobs:
 
     - name: Download GGUF model
       run: |
-        wget -O arazn-llama3-arabic.Q4_K_M.gguf https://huggingface.co/ahmedheakl/arazn-llama3-arabic-gguf/resolve/main/arazn-llama3-arabic.Q4_K_M.gguf
+        wget -O arazn-llama3-arabic.Q4_K_M.gguf https://huggingface.co/ahmedheakl/arazn-llama3-arabic-gguf
 
     - name: Track with Git LFS and Push
       run: |
