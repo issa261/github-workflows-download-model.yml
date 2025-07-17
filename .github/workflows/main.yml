@@ -1,39 +1,37 @@
-name: Download and Push Arabic LLaMA3 Model
+name: Download and Push GGUF Model
 
 on:
-  workflow_dispatch:  # يدويًا من واجهة GitHub
+  workflow_dispatch:  # تشغيل يدويًا من واجهة GitHub
 
 jobs:
   download-and-push:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Repo
         uses: actions/checkout@v3
 
-      - name: Set up Git user
+      - name: Set up Git
         run: |
-          git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
 
-      - name: Install Git LFS
+      - name: Download GGUF model
+        run: |
+          wget -O arazn-llama3-arabic-gguf-unsloth.Q4_K_M.gguf \
+          "https://huggingface.co/ahmedheakl/arazn-llama3-arabic-gguf/resolve/main/arazn-llama3-arabic-gguf-unsloth.Q4_K_M.gguf?download=true"
+
+      - name: Track GGUF file with Git LFS
         run: |
           git lfs install
-
-      - name: Download the GGUF model from Hugging Face
-        run: |
-          wget "https://huggingface.co/ahmedheakl/arazn-llama3-arabic-gguf/resolve/main/arazn-llama3-arabic-gguf-unsloth.Q4_K_M.gguf?download=true" \
-            -O arazn-llama3-arabic-gguf-unsloth.Q4_K_M.gguf
-
-      - name: Track .gguf files with Git LFS
-        run: |
           git lfs track "*.gguf"
-          echo "*.gguf" >> .gitattributes
+          echo "*.gguf filter=lfs diff=lfs merge=lfs -text" >> .gitattributes
 
-      - name: Commit and push the model
+      - name: Commit and Push
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
         run: |
           git add .
           git commit -m "Add Arazn Arabic LLaMA3 GGUF model"
+          git remote set-url origin https://${GH_PAT}@github.com/${{ github.repository }}
           git push origin main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
