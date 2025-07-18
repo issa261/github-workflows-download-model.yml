@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: tinyllama-telegram-bot
+    runtime: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "./start.sh"
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: ALLOWED_USER_ID
+        sync: false
+    plan: starter
+    repo: issa261/github-workflows-download-model.yml
+    branch: main
+    autoDeploy: true
