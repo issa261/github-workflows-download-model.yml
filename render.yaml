@@ -1,7 +1,8 @@
-services:
+طservices:
   - type: web
     name: tinyllama-telegram-bot
     runtime: python
+    pythonVersion: 3.10.13
     buildCommand: "pip install -r requirements.txt"
     startCommand: "./start.sh"
     envVars:
