@@ -1,2 +1,4 @@
 llama-cpp-python
 python-telegram-bot==13.15
+tqdm
+requests
