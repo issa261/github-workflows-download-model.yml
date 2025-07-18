@@ -1,2 +1,2 @@
 #!/bin/bash
-python3.13 llama_telegram_bot.py
+python3 llama_telegram_bot.py
