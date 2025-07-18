@@ -1,6 +1,6 @@
 from llama_cpp import Llama
 from telegram import Update
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram.ext import Updater, imghdr, CommandHandler, MessageHandler, Filters
 import os
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
