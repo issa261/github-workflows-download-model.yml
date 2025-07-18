@@ -4,4 +4,4 @@
 cd "$(dirname "$0")"
 
 # تشغيل البوت
-python3 llama_telegram_bot.py
+./llama_telegram_bot.py
