@@ -3,5 +3,5 @@ python-telegram-bot==13.15
 tqdm
 requests
 standard-imghdr
-standard-urllib3.contrib
-standard-telegram.vendor
+standard-python-telegram-bot==13.15
+standard-urllib3
