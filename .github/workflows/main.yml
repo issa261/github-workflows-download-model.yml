@@ -1,38 +1,28 @@
-name: Download and Push GGUF Model
-
-on:
-  workflow_dispatch:
-
 jobs:
   download-and-push:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_PAT }}
 
-    - name: Install Git LFS
-      run: |
-        sudo apt-get update
-        sudo apt-get install git-lfs
-        git lfs install
+      - name: Download GGUF model
+        run: |
+          wget -O arazn-llama3-arabic-gguf-unsloth.Q4_K_M.gguf https://huggingface.co/ahmedheakl/arazn-llama3-arabic-gguf/resolve/main/arazn-llama3-arabic-gguf-unsloth.Q4_K_M.gguf
 
-    - name: Download GGUF model
-      run: |
-        wget -O arazn-llama3-arabic-gguf-unsloth.Q4_K_M.gguf "https://huggingface.co/ahmedheakl/arazn-llama3-arabic-gguf/resolve/main/arazn-llama3-arabic-gguf-unsloth.Q4_K_M.gguf?download=true"
+      - name: Setup Git identity
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
 
-    - name: Track GGUF files with Git LFS
-      run: |
-        git lfs track "*.gguf"
-        echo "*.gguf filter=lfs diff=lfs merge=lfs -text" >> .gitattributes
+      - name: Track large files with Git LFS
+        run: |
+          git lfs install
+          git lfs track "*.gguf"
 
-    - name: Commit and Push
-      env:
-        GH_PAT: ${{ secrets.GH_PAT }}
-      run: |
-        git config user.name "github-actions"
-        git config user.email "github-actions@github.com"
-        git add .
-        git commit -m "Add Arazn Arabic LLaMA3 GGUF model"
-        git remote set-url origin https://${GH_PAT}@github.com/issa261/github-workflows-download-model.yml.git
-        git push origin main
+      - name: Commit and push model
+        run: |
+          git add .
+          git commit -m "Add Arazn Arabic LLaMA3 GGUF model"
+          git push origin main
