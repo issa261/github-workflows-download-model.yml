@@ -10,7 +10,7 @@ from telegram.ext import (
 import os
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-ALLOWED_USER_ID = int(os.getenv("ALLOWED_USER_ID", "6837315281"))
+ALLOWED_USER_ID = int(os.getenv("ALLOWED_USER_ID", "0"))
 MODEL_PATH = "tinyllama-1.1b-chat-v1.0.Q8_0.gguf"
 
 if not os.path.exists(MODEL_PATH):
