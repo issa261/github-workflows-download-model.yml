@@ -1,8 +1,13 @@
 from llama_cpp import Llama
 from telegram import Update
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram.ext import (
+    ApplicationBuilder,
+    CommandHandler,
+    MessageHandler,
+    ContextTypes,
+    filters
+)
 import os
-import imghdr  # هذا هو المكان الصحيح للاستيراد
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 ALLOWED_USER_ID = int(os.getenv("ALLOWED_USER_ID", "6837315281"))
@@ -13,27 +18,25 @@ if not os.path.exists(MODEL_PATH):
 
 llm = Llama(model_path=MODEL_PATH, n_ctx=2048)
 
-def start(update: Update, context):
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != ALLOWED_USER_ID:
-        update.message.reply_text("⛔️ غير مصرح لك.")
+        await update.message.reply_text("⛔️ غير مصرح لك.")
         return
-    update.message.reply_text("🤖 أهلاً! أرسل سؤالك.")
+    await update.message.reply_text("🤖 أهلاً! أرسل سؤالك.")
 
-def handle(update: Update, context):
+async def handle(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != ALLOWED_USER_ID:
-        update.message.reply_text("⛔️ غير مصرح لك.")
+        await update.message.reply_text("⛔️ غير مصرح لك.")
         return
     prompt = update.message.text
     response = llm(prompt, max_tokens=200)["choices"][0]["text"].strip()
-    update.message.reply_text(response)
+    await update.message.reply_text(response)
 
 def main():
-    updater = Updater(BOT_TOKEN, use_context=True)
-    dp = updater.dispatcher
-    dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(MessageHandler(Filters.text & ~Filters.command, handle))
-    updater.start_polling()
-    updater.idle()
+    app = ApplicationBuilder().token(BOT_TOKEN).build()
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle))
+    app.run_polling()
 
 if __name__ == "__main__":
     main()
