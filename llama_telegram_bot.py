@@ -1,7 +1,8 @@
 from llama_cpp import Llama
 from telegram import Update
-from telegram.ext import Updater, imghdr, CommandHandler, MessageHandler, Filters
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import os
+import imghdr  # هذا هو المكان الصحيح للاستيراد
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 ALLOWED_USER_ID = int(os.getenv("ALLOWED_USER_ID", "6837315281"))
