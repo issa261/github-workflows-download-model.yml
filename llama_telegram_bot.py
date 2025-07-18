@@ -3,7 +3,7 @@ from telegram import Update
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import os
 
-BOT_TOKEN = os.getenv("7537714477:AAGbdxU0pvQEpBK2Ee5qDguOGcTQPsdIp8o")
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 ALLOWED_USER_ID = int(os.getenv("ALLOWED_USER_ID", "6837315281"))
 MODEL_PATH = "tinyllama-1.1b-chat-v1.0.Q8_0.gguf"
 
