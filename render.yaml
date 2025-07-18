@@ -1,10 +1,10 @@
-طservices:
+services:
   - type: web
     name: tinyllama-telegram-bot
     runtime: python
-    pythonVersion: 3.10.13
+    pythonVersion: 3.10.13   # ← مهم جداً
     buildCommand: "pip install -r requirements.txt"
-    startCommand: "./start.sh"
+    startCommand: "python llama_telegram_bot.py"
     envVars:
       - key: BOT_TOKEN
         sync: false
